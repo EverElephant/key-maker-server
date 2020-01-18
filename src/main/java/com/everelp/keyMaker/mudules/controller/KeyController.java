@@ -34,9 +34,9 @@ public class KeyController {
             return serverRes;
         }
         Date now = new Date();
-        makeKeys(user.getUserName(), json, now);
         MakerCache.nowUserName = user.getUserName();
         MakerCache.makeTime = now.getTime();
+        makeKeys(user.getUserName(), json, now);
         return serverRes;
     }
 
@@ -102,14 +102,30 @@ public class KeyController {
     @PostMapping(value = "/download")
     public ServerRes getUrlFile(String url, HttpServletRequest request, HttpServletResponse response) {
         ServerRes serverRes = new ServerRes(ResCodeMsg.SUCCESS);
-        serverRes.setData(request.getServerName()+"/download/"+UserUtil.getCurrentUser(request).getUserName()+"/SDK15_app_s132.zip");
+        User user = UserUtil.getCurrentUser(request);
+        if(user == null){
+            response.setStatus(401);
+            return serverRes;
+        }
+        if(isMakeRunning()){
+            if(MakerCache.nowUserName.equals(user.getUserName())){
+                serverRes.setCodeMsg(ResCodeMsg.MAKING_NOW);
+                return serverRes;
+            }
+        }
+        File file = new File("/var/www/html/download/"+user.getUserName()+"/SDK15_app_s132.zip");
+        if(!file.exists() || !file.canRead()){
+            serverRes.setCodeMsg(ResCodeMsg.NO_FILE_MADE);
+            return serverRes;
+        }
+        serverRes.setData("http://"+request.getContextPath()+"/download/"+user.getUserName()+"/SDK15_app_s132.zip");
         return serverRes;
     }
 
     private boolean isMakeRunning() {
         long lastMakeTime = MakerCache.makeTime;
         // 超过五分钟一定可以再生成了
-        if (new Date().getTime() - 300000 < lastMakeTime) {
+        if (new Date().getTime() - 300000 > lastMakeTime) {
             return false;
         }
         // 五分钟以内，看下对应的生成了没

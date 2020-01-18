@@ -15,6 +15,9 @@ public enum ResCodeMsg {
     INVALID_OPER(8000,"操作不合适"),
     HAVE_REGISTERED(8001,"您已注册"),
     NAME_REGISTERED(8002,"用户名已被注册"),
+    MAKING_NOW(8101,"正在生成，请稍后再试"),
+    NO_FILE_MADE(8102,"您未生成任何固件，请先生成"),
+
 
 
 
