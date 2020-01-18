@@ -23,6 +23,7 @@ public enum ResCodeMsg {
     WRONG(9000,"错误"),
     NO_USER(9001,"用户不存在"),
     PWD_WRONG(9002,"密码错误"),
+    EMPTY_PARAM(9003,"输入不能为空"),
 
     ;
     int code;
