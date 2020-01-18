@@ -59,7 +59,6 @@ public class SysController {
 
         HttpSession session = request.getSession();
         if (UserCache.cache.get(session.getId()) != null) {
-            commonRes.setCodeMsg(ResCodeMsg.HAVE_REGISTERED);
             return commonRes;
         }
         // 查询用户名
