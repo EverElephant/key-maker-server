@@ -14,11 +14,13 @@ public class CorsFilter implements Filter {
             HttpServletRequest request = (HttpServletRequest) req;
 
             String method= request.getMethod();
-
-            response.setHeader("Access-Control-Allow-Origin","*");
+            String originHeads = request.getHeader("Origin");
+//            response.setHeader("Access-Control-Allow-Origin","*");
+            // 浏览器疯狂限制跨域，*是不可以的
+            response.setHeader("Access-Control-Allow-Origin",originHeads);
             response.setHeader("Access-Control-Allow-Credentials", "true");
             response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
-            response.setHeader("Access-Control-Max-Age", "5000");
+            response.setHeader("Access-Control-Max-Age", "36000");
             response.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,Authorization,Token");
 
             if (method.equals("OPTIONS")){

@@ -87,7 +87,7 @@ public class KeyController {
      * @param url      图片url
      * @param response 请求响应
      */
-    @GetMapping(value = "/download")
+    @RequestMapping(value = "/download")
     public void getUrlFile(String url, HttpServletRequest request, HttpServletResponse response) {
         // 这里的url，我为了测试，直接就写静态的。
         User user = UserUtil.getCurrentUser(request);
@@ -103,16 +103,17 @@ public class KeyController {
             response.setStatus(404);
             return;
         }
-        FileInputStream inputStream = null;
+        response.addHeader("Content-Disposition","attachment;filename=SDK15_app_s132.zip");
+        response.setContentType("application/x-zip-compressed;charset=utf-8");
         try {
-            inputStream = new FileInputStream(file);
+            FileInputStream inputStream = new FileInputStream(file);
             byte[] data = new byte[(int) file.length()];
+            inputStream.read(data);
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(data);
+            outputStream.flush();
+            outputStream.close();
             inputStream.close();
-            response.setContentType("application/x-zip-compressed;charset=utf-8");
-            OutputStream stream = response.getOutputStream();
-            stream.write(data);
-            stream.flush();
-            stream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

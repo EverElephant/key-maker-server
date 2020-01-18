@@ -19,7 +19,6 @@ public class SysController {
 
     @PostMapping("login")
     public ServerRes login(User user, HttpServletRequest request) {
-        System.out.println(user.toString());
         ServerRes commonRes = new ServerRes(ResCodeMsg.SUCCESS);
         String oldSessionId = null;
 
@@ -56,7 +55,6 @@ public class SysController {
 
     @PostMapping("register")
     public ServerRes register(User user, HttpServletRequest request) {
-        System.out.println(user.toString());
         ServerRes commonRes = new ServerRes(ResCodeMsg.SUCCESS);
 
         HttpSession session = request.getSession();
