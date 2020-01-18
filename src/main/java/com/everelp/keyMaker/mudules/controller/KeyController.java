@@ -118,7 +118,7 @@ public class KeyController {
             serverRes.setCodeMsg(ResCodeMsg.NO_FILE_MADE);
             return serverRes;
         }
-        serverRes.setData("http://"+request.getContextPath()+"/download/"+user.getUserName()+"/SDK15_app_s132.zip");
+        serverRes.setData("http://"+request.getServerName()+"/download/"+user.getUserName()+"/SDK15_app_s132.zip");
         return serverRes;
     }
 
